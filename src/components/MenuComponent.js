@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, CardImg, CardBody, CardImgOverlay, CardTitle, CardText } from 'reactstrap'
+import DishdetailComponent from './DishdetailComponent'
+import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap'
 
 class Menu extends React.Component {
     constructor(props) {
@@ -13,29 +14,12 @@ class Menu extends React.Component {
         this.setState({ selectedDish: dish })
     }
 
-    renderDish = (dish) => {
-        if(dish != null) {
-            return(
-                <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            )
-        } else {
-            return(
-                <div></div>
-            )
-        }
-    }
     render() {
         const menu = this.props.dishes.map((dish) => {
             return(
-                <div className="col-12 col-md-5 m-1" >
+                <div key={dish.id} className="col-12 col-md-5 m-1" >
                     <Card key={dish.id} onClick={() => this.onDishSelect(dish)} >
-                        <CardImg width="100%" object src={dish.image} alt={dish.name} />
+                        <CardImg width="100%" src={dish.image} alt={dish.name} />
                         <CardImgOverlay>
                             <CardTitle>{dish.name}</CardTitle>
                         </CardImgOverlay>
@@ -49,11 +33,7 @@ class Menu extends React.Component {
                 <div className="row" >       
                     {menu}
                 </div>
-                <div className="row">
-                    <div className="col-12 col-md-5 m-1" >
-                        {this.renderDish(this.state.selectedDish)}
-                    </div>
-                </div>
+                <DishdetailComponent dish={this.state.selectedDish} />
             </div>
         )
     }
