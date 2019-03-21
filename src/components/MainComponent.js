@@ -25,7 +25,7 @@ class Main extends React.Component {
                         <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
                     </div>
                 </Navbar>
-                <Menu dishes={this.state.dishes} onDishSelect={this.onDishSelect} />
+                <Menu dishes={this.state.dishes} onClick={this.onDishSelect} />
                 <Dishdetail 
                     dish={this.state.dishes.filter(dish => dish.id === this.state.selectedDish)[0]}
                     />
