@@ -8,10 +8,10 @@ const renderComments = (dish) => {
                 <h4>Comments</h4>
                  
                 <ul className="list-unstyled" >
-                {dish.comments.map(c =>
-                <div>
-                    <li>{c.comment}</li>
-                    <p>-- {c.author}, { new Date(c.date).toDateString()}</p>
+                {dish.comments.map(comment =>
+                <div key={comment.id}>
+                    <li>{comment.comment}</li>
+                    <p>-- {comment.author}, { new Intl.DateTimeFormat('en-us', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
                 </div>
                 )}
                 </ul>
@@ -46,11 +46,12 @@ class Dishdetail extends React.Component {
     
     
     render() {
-        
         return(
-            <div className="row" >
-                {renderDish(this.props.dish)}
-                {renderComments(this.props.dish)}
+            <div className="container">
+                <div className="row" >
+                    {renderDish(this.props.dish)}
+                    {renderComments(this.props.dish)}
+                </div>
             </div>
         )
     }
