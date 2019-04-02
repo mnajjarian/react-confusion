@@ -97,7 +97,7 @@ class Contact extends React.Component {
                                         valid={errors.firstname === ''}
                                         invalid={errors.firstname !== ''}
                                         onBlur={this.handleBlur('firstname')}
-                                        onChange={this.handleInputChange} required />
+                                        onChange={this.handleInputChange} />
                                      <FormFeedback>{errors.firstname}</FormFeedback>
                                  </Col>
                              </FormGroup>
