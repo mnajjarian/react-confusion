@@ -1,8 +1,71 @@
 import React from 'react'
-import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem, Button, Modal, 
+    ModalBody, ModalHeader, Row, Label, Input, Col} from 'reactstrap'
+import { LocalForm, Control } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 
+class CommentForm extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isModalOpen: false
+        }
+    }
+    toggleModal = () => {
+        this.setState({ isModalOpen: !this.state.isModalOpen })
+    }
+    render() {
+        console.log(this.state.isModalOpen)
+        return(
+            <div>
+                <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg" ></span> Submit Comment</Button>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} >
+                    <ModalHeader toggle={this.toggleModal} >Submit Comment</ModalHeader>
+                    <ModalBody>
+                        <LocalForm>
+                            <Row className="form-group" > 
+                                <Col>
+                                    <Label htmlFor='rating' >Rating</Label>
+                                    <Control.select model='.rating' id='rating'   className="form-control">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </Control.select>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Label htmlFor='name' >Your Name</Label>
+                                    <Input model='.name' id='name' className='form-control' 
+                                        placeholder='Your Name' />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Label htmlFor='comment' >Comment</Label>
+                                    <Control.textarea
+                                        model='.comment'
+                                        id='comment'
+                                        rows='6'
+                                        className='form-control'
+                                    />
+                                </Col>
+                            </Row>
+                            <Button type='submit' className='mt-2 bg-primary' >
+                                Submit
+                            </Button>
+                        </LocalForm>
+                    </ModalBody>
+                </Modal>
+            </div>
+        )
+    }
+}
 const RenderComments = ({ comments }) => {
+
     return(
         <div >
             <h4>Comments</h4> 
@@ -14,6 +77,7 @@ const RenderComments = ({ comments }) => {
             </div>
             )}
             </ul>
+            <CommentForm />
         </div>
     )
 }
