@@ -1,9 +1,12 @@
 import React from 'react'
 import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbItem, Button, Modal, 
-    ModalBody, ModalHeader, Row, Label, Input, Col} from 'reactstrap'
-import { LocalForm, Control } from 'react-redux-form'
+    ModalBody, ModalHeader, Row, Label, Col} from 'reactstrap'
+import { LocalForm, Control, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
 
+const required = (val) => val && val.length
+const minLength = (len) => (val) => !(val) || (val.length > len)
+const maxLength = (len) => (val) => !(val) || (val.length <= len)
 class CommentForm extends React.Component {
     constructor(props) {
         super(props)
@@ -14,6 +17,11 @@ class CommentForm extends React.Component {
     toggleModal = () => {
         this.setState({ isModalOpen: !this.state.isModalOpen })
     }
+
+    handleSubmit = (values) => {
+        console.log(JSON.stringify(values))
+        this.toggleModal()
+    }
     render() {
         console.log(this.state.isModalOpen)
         return(
@@ -22,7 +30,7 @@ class CommentForm extends React.Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} >
                     <ModalHeader toggle={this.toggleModal} >Submit Comment</ModalHeader>
                     <ModalBody>
-                        <LocalForm>
+                        <LocalForm onSubmit={this.handleSubmit} >
                             <Row className="form-group" > 
                                 <Col>
                                     <Label htmlFor='rating' >Rating</Label>
@@ -39,8 +47,25 @@ class CommentForm extends React.Component {
                             <Row>
                                 <Col>
                                     <Label htmlFor='name' >Your Name</Label>
-                                    <Input model='.name' id='name' className='form-control' 
-                                        placeholder='Your Name' />
+                                    <Control.text model='.name' id='name' 
+                                        className='form-control' 
+                                        placeholder='Your Name'
+                                        validators={{
+                                            required,
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(15)
+                                        }}
+                                        />
+                                        <Errors
+                                        className='text-danger'
+                                        model='.name'
+                                        show='touched'
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
+                                        }}
+                                        />
                                 </Col>
                             </Row>
                             <Row>
