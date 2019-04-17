@@ -3,6 +3,7 @@ import { Card, CardBody, CardTitle, CardText, CardImg, Breadcrumb, BreadcrumbIte
     ModalBody, ModalHeader, Row, Label, Col} from 'reactstrap'
 import { LocalForm, Control, Errors } from 'react-redux-form'
 import { Link } from 'react-router-dom'
+import { Loading } from './LoadingComponent';
 
 const required = (val) => val && val.length
 const minLength = (len) => (val) => !(val) || (val.length > len)
@@ -24,7 +25,7 @@ class CommentForm extends React.Component {
         this.toggleModal()
     }
     render() {
-        console.log(this.state.isModalOpen)
+        
         return(
             <div>
                 <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg" ></span> Submit Comment</Button>
@@ -121,7 +122,23 @@ const RenderDish = ({ dish }) => {
 }
 
 const Dishdetail = (props) => {
-    if(props.dish != null) {
+    if(props.isLoading) {
+        return(
+            <div className='container' >
+                <div className='row' >
+                    <Loading />
+                </div>
+            </div>
+        )
+    } else if(props.errMess) {
+        return(
+            <div className='container' >
+                <div className='row' >
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        )
+    } else if(props.dish != null) {
         return(
             <div className="container">
                 <div className="row" >
