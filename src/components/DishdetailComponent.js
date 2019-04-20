@@ -5,7 +5,7 @@ import { Loading } from './LoadingComponent'
 import CommentForm from './CommentComponent'
 
 
-const RenderComments = ({ comments, addComment, dishId }) => {
+const RenderComments = ({ comments, postComment, dishId }) => {
 
     return(
         <div >
@@ -18,7 +18,7 @@ const RenderComments = ({ comments, addComment, dishId }) => {
             </div>
             )}
             </ul>
-            <CommentForm dishId={dishId} addComment={addComment} />
+            <CommentForm dishId={dishId} postComment={postComment} />
         </div>
     )
 }
@@ -70,7 +70,7 @@ const Dishdetail = (props) => {
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className='col-12 col-md-5 m-1'>
-                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
+                        <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
                     </div>
                 </div>
             </div>
