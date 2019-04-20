@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom'
 class Contact extends React.Component {
 
     handleSubmit = (values) => {
-        //event.preventDefault()
-        console.log('Current State is: ' + JSON.stringify(values))
-        alert('Current State is: ' + JSON.stringify(values))
+        this.props.postFeedback(values)
         this.props.resetFeedbackForm()
+        alert('Thank you for your feedback!')
         
     }
     render() {

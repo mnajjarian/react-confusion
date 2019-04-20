@@ -148,3 +148,72 @@ export const promosFailed = (errmess) => {
         payload: errmess
     }
 }
+
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true))
+
+    fetch(baseUrl + 'leaders')
+       .then(response => {
+           if(response.ok) {
+               return response
+           } else {
+               let error = new Error('Error ' + response.status + ': ' + response.statusText)
+               error.response = response
+               throw error
+           }
+       },
+        error => {
+            let errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(response => dispatch(addLeaders(response)))
+        .catch(error => dispatch(leadersFailed(error.message)))
+}
+
+export const leadersLoading = () => {
+    return {
+        type: ActionTypes.LEADERS_LOADING
+    }
+}
+
+export const addLeaders = (leaders) => {
+    return {
+        type: ActionTypes.ADD_LEADERS,
+        payload: leaders
+    }
+}
+
+export const leadersFailed = (errmess) => {
+    return {
+        type: ActionTypes.LEADERS_FAILED,
+        payload: errmess
+    }
+}
+
+export const postFeedback = (feedback) => (dispatch) => {
+    fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(feedback),
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin' 
+    })
+    .then(response => {
+        if(response.ok) {
+            return response
+        } else {
+            let error = new Error('Error ' + response.status + ': ' + response.statusText)
+            error.response = response
+            throw error
+        }
+    },
+    error => {
+        throw error
+    })
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(error => {
+        console.log(error.message)
+        alert('Your feedback could not be send\nError ' + error.message)
+    })
+}
